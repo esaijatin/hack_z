@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChildHealthCare Companion</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for additional styling -->
+    <style>
+        /* Custom styling */
+        body {
+            background-color: #f8f9fa;
+        }
+        .jumbotron {
+            background-color: #007bff;
+            color: #fff;
+            padding: 30px;
+            border-radius: 0;
+        }
+        .jumbotron h1 {
+            font-size: 36px;
+        }
+        .jumbotron p {
+            font-size: 18px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .results-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="health.html">ChildHealthCare Companion</a>
+    </nav>
+
+    <!-- Jumbotron for a welcoming header -->
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to the Symptom Checker!</h1>
+        <p class="lead">Make informed healthcare decisions for your child.</p>
+    </div>
+
+    <!-- Container for the content -->
+    <div class="container mt-4">
+        <!-- Symptom Checker Form -->
+        <div class="form-container">
+            <h2 class="mb-4">Symptom Checker</h2>
+            <p>Enter your child's symptoms below:</p>
+
+            <!-- Symptom checker form goes here -->
+            <form id="symptomForm">
+                <!-- Add symptom input fields here -->
+                <!-- Example: -->
+                <div class="form-group">
+                    <label for="symptom1">Symptom 1:</label>
+                    <input type="text" class="form-control" id="symptom1" name="symptom1">
+                </div>
+
+                <div class="form-group">
+                    <label for="symptom2">Symptom 2:</label>
+                    <input type="text" class="form-control" id="symptom2" name="symptom2">
+                </div>
+
+                <!-- Add more symptom input fields as needed -->
+
+                <button type="submit" class="btn btn-primary">Check Symptoms</button>
+            </form>
+        </div>
+
+        <!-- Display symptom assessment results -->
+        <div id="symptomResults" class="results-container mt-4">
+            <!-- Results will be shown here after submission -->
+        </div>
+
+        <!-- Navigation button to go back to the main page -->
+        <div class="mt-4 text-center">
+            <a href="#" class="btn btn-secondary" onclick="goToMainPage()">Go Back to Main Page</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript (Optional, if you need Bootstrap JavaScript features) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to toggle the symptom checker page and handle form submission -->
+    <script>
+        const openButton = document.getElementById("openSymptomChecker");
+        const symptomCheckerPage = document.getElementById("symptomCheckerPage");
+        const symptomForm = document.getElementById("symptomForm");
+        const symptomResults = document.getElementById("symptomResults");
+
+        openButton.addEventListener("click", function() {
+            symptomCheckerPage.style.display = "block";
+        });
+
+        symptomForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get symptom values from form
+            const symptom1Value = document.getElementById("symptom1").value;
+            const symptom2Value = document.getElementById("symptom2").value;
+
+            // Perform symptom assessment logic (replace with your actual logic)
+            const assessmentResult = assessSymptoms(symptom1Value, symptom2Value);
+
+            // Display assessment result with labels
+            symptomResults.innerHTML = `<h2>Symptom Assessment Result:</h2>
+                <p><strong>Symptom 1:</strong> ${symptom1Value}</p>
+                <p><strong>Symptom 2:</strong> ${symptom2Value}</p>
+                <p><strong>Possible Causes:</strong> ${assessmentResult.causes}</p>
+                <p><strong>Recommended Action:</strong> ${assessmentResult.action}</p>`;
+        });
+
+        // Function to go back to the main page
+        function goToMainPage() {
+            symptomCheckerPage.style.display = "none";
+        }
+
+        // Example symptom assessment logic (replace with your own logic)
+        function assessSymptoms(symptom1, symptom2) {
+            // Replace this logic with your own assessment algorithm and database
+            const symptomDatabase = {
+                "Fever": {
+                    causes: "Common cold, flu, viral infection",
+                    action: "Rest, drink fluids, over-the-counter medicine, consult a doctor if symptoms worsen."
+                },
+                "Cough": {
+                    causes: "Respiratory infections, allergies, asthma",
+                    action: "Stay hydrated, use cough drops, consult a doctor if persistent."
+                },
+                // Add more symptoms and their causes/actions
+            };
+
+            const result = {
+                causes: "Unknown",
+                action: "Consult a healthcare professional"
+            };
+
+            if (symptom1 in symptomDatabase && symptom2 in symptomDatabase) {
+                result.causes = `${symptomDatabase[symptom1].causes}, ${symptomDatabase[symptom2].causes}`;
+                result.action = `${symptomDatabase[symptom1].action}, ${symptomDatabase[symptom2].action}`;
+            } else if (symptom1 in symptomDatabase) {
+                result.causes = symptomDatabase[symptom1].causes;
+                result.action = symptomDatabase[symptom1].action;
+            } else if (symptom2 in symptomDatabase) {
+                result.causes = symptomDatabase[symptom2].causes;
+                result.action = symptomDatabase[symptom2].action;
+            }
+
+            return result;
+        }
+    </script>
+</body>
+</html>
